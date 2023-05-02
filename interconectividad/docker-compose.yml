@@ -1,0 +1,29 @@
+services:
+
+  recepcion_productos_externos-service:
+    build:
+      context: ./api/InterconnectivityService/RecepcionProductosExternos
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_recepcion_productos_externos
+    container_name: sa_recepcion_productos_externos
+    env_file:
+      - .env.prod
+    ports:
+      - "4020:4020"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  registro_compra_externa-service:
+      build:
+        context: ./api/InterconnectivityService/RegistroCompraExterna
+        dockerfile: Dockerfile
+      image: mruiz01329/sa_registro_compra_externa
+      container_name: sa_registro_compra_externa
+      env_file:
+        - .env.prod
+      ports:
+        - "4021:4021"
+      restart: always
+      networks:
+        - sa0914-app-net

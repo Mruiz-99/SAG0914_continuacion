@@ -1,0 +1,14 @@
+services:
+    upload-service:
+      build:
+        context: ./api/UploaderService/upload
+        dockerfile: Dockerfile
+      image: lex2804/upload-sa-g0914-project
+      container_name: upload-sa-g0914-project
+      env_file:
+        - .env.prod
+      ports:
+        - "6003:6003"
+      restart: always
+      networks:
+        - sa0914-app-net

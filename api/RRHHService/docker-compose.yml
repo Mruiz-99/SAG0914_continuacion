@@ -1,0 +1,45 @@
+services:
+  agendar_entrevista-service:
+    build:
+      context: ./api/RRHHService/agendarEntrevistas
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_agendar_entrevista
+    container_name: sa_agendar_entrevista
+    env_file:
+      - .env.prod
+    ports:
+      - "4011:4011"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  agregar_usuario_administrador-service:
+    build:
+      context: ./api/RRHHService/agregarUsuarioAdmin
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_agregar_usuario_administrador
+    container_name: sa_agregar_usuario_administrador
+    env_file:
+      - .env.prod
+    ports:
+      - "4009:4009"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  dar_baja_usuario_administrador-service:
+    build:
+      context: ./api/RRHHService/darBajaUsuarioAdmin
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_dar_baja_usuario_administrador
+    container_name: sa_dar_baja_usuario_administrador
+    env_file:
+      - .env.prod
+    ports:
+      - "4010:4010"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+
+

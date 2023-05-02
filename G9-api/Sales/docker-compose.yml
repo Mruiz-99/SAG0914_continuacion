@@ -1,0 +1,28 @@
+services:
+    aprobar_venta:
+      build:
+        context: ./api/Sales/AprobarVenta
+        dockerfile: Dockerfile
+      image: pilotuy/sa_aprobarventa
+      container_name: sa_aprobarventa
+      env_file:
+        - .env.prod
+      ports:
+        - "3122:3122"
+      restart: always
+      networks:
+        - sa0914-app-net
+
+    registrar_ventas:
+      build:
+        context: ./api/Sales/RegistrarVentas
+        dockerfile: Dockerfile
+      image: pilotuy/sa_registrarventa
+      container_name: sa_registrarventa
+      env_file:
+        - .env.prod
+      ports:
+        - "3121:3121"
+      restart: always
+      networks:
+        - sa0914-app-net

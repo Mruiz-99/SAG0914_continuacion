@@ -1,0 +1,42 @@
+services:
+    pago_planilla:
+      build:
+        context: ./api/Accounting/PagoPlanilla
+        dockerfile: Dockerfile
+      image: pilotuy/sa_pagoplanilla
+      container_name: sa_pagoplanilla
+      env_file:
+        - .env.prod
+      ports:
+        - "3131:3131"
+      restart: always
+      networks:
+        - sa0914-app-net
+
+    registro_planilla:
+      build:
+        context: ./api/Accounting/PagoPlanilla
+        dockerfile: Dockerfile
+      image: pilotuy/sa_registroplanilla
+      container_name: sa_registroplanilla
+      env_file:
+        - .env.prod
+      ports:
+        - "3132:3132"
+      restart: always
+      networks:
+        - sa0914-app-net
+
+    recargar_Billetera:
+      build:
+        context: ./api/Wallet/RecargarBilletera
+        dockerfile: Dockerfile
+      image: pilotuy/sa_recargarbilletera
+      container_name: sa_recargarbilletera
+      env_file:
+        - .env.prod
+      ports:
+        - "3103:3103"
+      restart: always
+      networks:
+        - sa0914-app-net

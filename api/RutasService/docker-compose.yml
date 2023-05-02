@@ -1,0 +1,45 @@
+services:
+  crear_ruta-service:
+    build:
+      context: ./api/RutasService/crearRuta
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_crear_ruta
+    container_name: sa_crear_ruta
+    env_file:
+      - .env.prod
+    ports:
+      - "4037:4037"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  entregar_ruta-service:
+    build:
+      context: ./api/RutasService/entregarRuta
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_entregar_ruta
+    container_name: sa_entregar_ruta
+    env_file:
+      - .env.prod
+    ports:
+      - "4038:4038"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  obtener_productos_ruta-service:
+    build:
+      context: ./api/RutasService/obtenerProductosRuta
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_obtener_productos_ruta
+    container_name: sa_obtener_productos_ruta
+    env_file:
+      - .env.prod
+    ports:
+      - "4039:4039"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+
+

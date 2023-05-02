@@ -1,0 +1,23 @@
+.p-dataview-content {
+    background: transparent !important;
+}
+
+.p-dataview-content .p-grid {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.p-dataview-header {
+    background: #ffffff !important;
+    padding: 25px !important;
+    border-radius: 1.5rem;
+}
+
+.p-dataview .p-paginator {
+    margin-top: 1.5rem;
+    padding: 15px !important;
+    border-radius: 1.5rem;
+}

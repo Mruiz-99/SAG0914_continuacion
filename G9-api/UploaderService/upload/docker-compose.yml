@@ -1,0 +1,14 @@
+services:
+    upload-microservice:
+      build:
+        context: ./api/UploaderService/upload
+        dockerfile: Dockerfile
+      image: lex2804/upload-microservice-sa-g9-project
+      container_name: upload-microservice-sa-g9-project
+      env_file:
+        - .env
+      ports:
+        - "6003:6003"
+      restart: always
+      networks:
+        - app-net

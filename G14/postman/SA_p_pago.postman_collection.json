@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "f79c1cec-66c5-4727-8b9a-9025a83331cf",
+		"name": "SA_p_pago",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registro Tarjeta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"iduser\": 1,\r\n    \"cuenta\": \"tar2\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6050/pago/addtarjeta",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6050",
+					"path": [
+						"pago",
+						"addtarjeta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registro Cartera",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"iduser\": 1,\r\n    \"cuenta\": \"1234\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6050/pago/addcartera",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6050",
+					"path": [
+						"pago",
+						"addcartera"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todos las tarjetas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6050/pago/gettarjetas/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6050",
+					"path": [
+						"pago",
+						"gettarjetas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todos las carteras",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6050/pago/getcarteras/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6050",
+					"path": [
+						"pago",
+						"getcarteras",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "agregar Monto cartera",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idcartera\": 1,\r\n    \"monto\": 50\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6050/pago/addmonto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6050",
+					"path": [
+						"pago",
+						"addmonto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "realizar pago",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"iduser\": 1,\r\n    \"idtarjeta\": null,\r\n    \"idcartera\": 1,\r\n    \"idcompra\": null,\r\n    \"idventa\": null,\r\n    \"monto\": 10\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6050/pago/addpago",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6050",
+					"path": [
+						"pago",
+						"addpago"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validar monto de cartera",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idcartera\": 1,\r\n    \"monto\": 10\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6050/pago/valmontopago",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6050",
+					"path": [
+						"pago",
+						"valmontopago"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

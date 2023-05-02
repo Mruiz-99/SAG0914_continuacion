@@ -1,0 +1,52 @@
+stages:
+  - test
+  - build
+  - deploy
+
+test_back:
+  stage: test
+  image: python:3-alpine
+  only:
+    refs:
+      - main
+      - develop
+  script:
+    - chmod +x ./scripts/test.sh && ./scripts/test.sh back
+  tags:
+    - sa
+
+test_front:
+  stage: test
+  image: node:18-alpine
+  only:
+    refs:
+      - main
+      - develop
+  script:
+    - chmod +x ./scripts/test.sh && ./scripts/test.sh front
+  tags:
+    - sa
+
+
+build:
+  stage: build
+  only:
+    refs:
+      - main
+      - develop
+  script:
+    - chmod +x ./scripts/build.sh && ./scripts/build.sh
+  tags:
+    - shell
+
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - main
+      - develop
+  script:
+    - chmod +x ./scripts/deploy.sh && ./scripts/deploy.sh
+  tags:
+    - shell
+

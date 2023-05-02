@@ -1,0 +1,9 @@
+node_modules/
+build/
+dist/
+Dockerfile
+
+.gitignore
+yarn.lock
+pnpm-lock.yaml
+package-lock.json

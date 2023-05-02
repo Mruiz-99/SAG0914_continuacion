@@ -1,0 +1,58 @@
+services:
+  agregar_producto_carrito-service:
+    build:
+      context: ./api/PurchasesService/agregarProductosCarrito
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_agregar_producto_carrito
+    container_name: sa_agregar_producto_carrito
+    env_file:
+      - .env.prod
+    ports:
+      - "4013:4013"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  cancelar_compra-service:
+    build:
+      context: ./api/PurchasesService/cancelarCompra
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_cancelar_compra
+    container_name: sa_cancelar_compra
+    env_file:
+      - .env.prod
+    ports:
+      - "4016:4016"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  eliminar_producto_carrito-service:
+    build:
+      context: ./api/PurchasesService/eliminarProductoCarrito
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_eliminar_producto_carrito
+    container_name: sa_eliminar_producto_carrito
+    env_file:
+      - .env.prod
+    ports:
+      - "4015:4015"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+  ver_carrito_compras-service:
+    build:
+      context: ./api/PurchasesService/verCarritoCompras
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_ver_carrito_compras
+    container_name: sa_ver_carrito_compras
+    env_file:
+      - .env.prod
+    ports:
+      - "4014:4014"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+

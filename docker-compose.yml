@@ -1,0 +1,49 @@
+version: "3.7"
+services:
+
+  # _______________________________________________________________________________________
+  # TEMPLATE BACKEND SERVICE
+  # _______________________________________________________________________________________
+#  name-service:
+#    build:
+#      context: ./path_of_dockerfile
+#      dockerfile: Dockerfile
+#    image: user/name-sa-g0914-project
+#    container_name: name-sa-g0914-project
+#    env_file:
+#      - .env.prod
+#    ports:
+#      - "port:port"
+#    restart: always
+#    depends_on:
+#      -
+#    links:
+#      -
+#    environment:
+#      <VAR>: <VALUE>
+#    networks:
+#      - sa0914-app-net
+
+
+  # _______________________________________________________________________________________
+  # FRONTEND
+  # _______________________________________________________________________________________
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    image: lex2804/frontend-sa-g9-project
+    container_name: frontend-sa-g9-project
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - sa0914-app-net
+
+# _______________________________________________________________________________________
+# NETWORK
+# _______________________________________________________________________________________
+networks:
+  sa0914-app-net:
+    name: sa0914-app-net
+    driver: bridge

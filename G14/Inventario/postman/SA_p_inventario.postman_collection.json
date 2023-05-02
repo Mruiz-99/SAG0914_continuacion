@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "fb193c8f-f61b-4248-aab7-566361a6ea4d",
+		"name": "SA_p_inventario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registro producto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"libro juego de tronos\",\r\n    \"idcategoria\": 2,\r\n    \"precio\": 275,\r\n    \"costo\": 200,\r\n    \"stock\": 0\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4050/inventario/addproducto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4050",
+					"path": [
+						"inventario",
+						"addproducto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verificación de cantidad de producto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4050/inventario/getstock/16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4050",
+					"path": [
+						"inventario",
+						"getstock",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Stock",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sku\": 11,\r\n    \"stock\": 2,\r\n    \"tipo\": \"R\"\r\n\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4050/inventario/actualizarstock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4050",
+					"path": [
+						"inventario",
+						"actualizarstock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualización de producto",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Pizza peperoni modif\",\r\n    \"idcategoria\": 1,\r\n    \"precio\": 275,\r\n    \"costo\": 200,\r\n    \"stock\": 10,\r\n    \"idproducto\": 11\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4050/inventario/modproducto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4050",
+					"path": [
+						"inventario",
+						"modproducto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "informacion producto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4050/inventario/getinfo/16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4050",
+					"path": [
+						"inventario",
+						"getinfo",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todos los productos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4050/inventario/getproductos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4050",
+					"path": [
+						"inventario",
+						"getproductos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todos los productos externos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4050/inventario/getproductos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4050",
+					"path": [
+						"inventario",
+						"getproductos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

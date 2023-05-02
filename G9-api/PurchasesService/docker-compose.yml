@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+    build:
+      context: ./agregarProductosCarrito
+      dockerfile: Dockerfile
+    image: mruiz01329/sa_agregar_producto_carrito
+    container_name: sa_agregar_producto_carrito
+    ports:
+      - "4013:4013"
+    restart: always
+    depends_on:
+      -
+    links:
+      -
+    networks:
+      - sa0914-app-net
+# _______________________________________________________________________________________
+# NETWORK
+# _______________________________________________________________________________________
+networks:
+  sa0914-app-net:
+    name: sa0914-app-net
+    driver: bridge

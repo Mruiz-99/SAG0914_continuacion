@@ -1,0 +1,14 @@
+services:
+    email-microservice:
+      build:
+        context: ./api/NotificationService/email
+        dockerfile: Dockerfile
+      image: lex2804/email-microservice-sa-g9-project
+      container_name: email-microservice-sa-g9-project
+      env_file:
+        - .env
+      ports:
+        - "6001:6001"
+      restart: always
+      networks:
+        - app-net

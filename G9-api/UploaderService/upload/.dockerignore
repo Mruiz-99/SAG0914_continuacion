@@ -1,0 +1,7 @@
+.pytest_cache
+tests
+venv
+.coverage
+.dockerignore
+Dockerfile
+requirements.dev.txt

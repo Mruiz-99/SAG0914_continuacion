@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "58694425-bb98-4bb5-afa6-7d9f06d290fd",
+		"name": "sa_user_f3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cui\": 2168095170407,\r\n    \"nombres\": \"Rafael Angel\",\r\n    \"apellidos\": \"Chocoj Xinico\",\r\n    \"contrasena\": \"123\",\r\n    \"correo\": \"rafaelcliveguitar@gmail.com\",\r\n    \"fecha_nacimiento\": \"2020-11-25\",\r\n    \"tipo\": \"E\",\r\n    \"numero_grupo\": 914,\r\n    \"seccion_grupo\": \"N\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5050/user/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"user",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contrasena\": \"123\",\r\n    \"correo\": \"rafaelcliveguitar@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5050/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verificar correo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdWkiOjIxNjgwOTUxNzA0MDcsImV4cCI6MTY4MjM3MzI5OX0.zzV7IShwEIgG6iRe5D11dMFiMuNTONWlBBYwKNfaYeo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5050/user/verifyemail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"user",
+						"verifyemail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get perfil",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdWkiOjIxNjgwOTUxNzA0MDcsImV4cCI6MTY4MjM1Mjk2NX0.QhwM1_ONbCIOv5fA8bDGyrrkwWxF8mSBA0ltRooAsjo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5050/user/profile/2168095170407",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"user",
+						"profile",
+						"2168095170407"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verificar token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdWkiOjIxNjgwOTUxNzA0MDcsImlkX2dydXBvIjo5MTQsInNlY2Npb24iOiJOIiwiZXhwIjoxNjgyMzc0NDQ5fQ.hsctFD09-J-HJZI8dHQMS19pIxPE_59II2WkvGNQIBI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5050/user/verificartoken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"user",
+						"verificartoken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "de baja cuenta usuario",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cui\": \"2168095170407\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5050/user/unsubscribe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"user",
+						"unsubscribe"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

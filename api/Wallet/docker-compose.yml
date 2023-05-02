@@ -1,0 +1,42 @@
+services:
+    crear_billetera:
+      build:
+        context: ./api/Wallet/CrearBilletera
+        dockerfile: Dockerfile
+      image: pilotuy/sa_crearbilletera
+      container_name: sa_crearbilletera
+      env_file:
+        - .env.prod
+      ports:
+        - "3101:3101"
+      restart: always
+      networks:
+        - sa0914-app-net
+
+    obtener_Billetera:
+      build:
+        context: ./api/Wallet/ObtenerBilletera
+        dockerfile: Dockerfile
+      image: pilotuy/sa_obtenerbilletera
+      container_name: sa_obtenerbilletera
+      env_file:
+        - .env.prod
+      ports:
+        - "3102:3102"
+      restart: always
+      networks:
+        - sa0914-app-net
+
+    recargar_Billetera:
+      build:
+        context: ./api/Wallet/RecargarBilletera
+        dockerfile: Dockerfile
+      image: pilotuy/sa_recargarbilletera
+      container_name: sa_recargarbilletera
+      env_file:
+        - .env.prod
+      ports:
+        - "3103:3103"
+      restart: always
+      networks:
+        - sa0914-app-net
