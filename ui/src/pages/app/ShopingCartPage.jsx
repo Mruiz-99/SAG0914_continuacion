@@ -16,6 +16,28 @@ const ShoppingCartPage = () => {
   const { token, isAuth, getCountProducts } = useContext(Context)
   const shoppingCartService = new ShoppingCartService(token)
 
+  const removeProduct = (idProduct) => {
+    setLoading(true)
+    shoppingCartService.deleteProduct(idProduct)
+      .then(r => {
+        getData()
+        getCountProducts()
+      }).finally(() =>
+        setLoading(false)
+      )
+  }
+
+  const removeAllProduct = () => {
+    setLoading(true)
+    shoppingCartService.cancelShopping()
+      .then(r => {
+        getData()
+        getCountProducts()
+      }).finally(() =>
+        setLoading(false)
+      )
+  }
+
   const getData = () => {
     if (!isAuth) {
       message.current.show(
@@ -26,6 +48,10 @@ const ShoppingCartPage = () => {
     setLoading(true)
     shoppingCartService.getProducts().then(
       res => {
+        if (res.data.length === 0 || Object.keys(res.data[0]).length === 0) {
+          setProducts([])
+          return
+        }
         const temp = res.data.reduce((arr, product) => {
           const index = arr.findIndex(i => i.id_producto === product.id_producto)
           if (index >= 0) {
@@ -34,10 +60,8 @@ const ShoppingCartPage = () => {
             product.cantidad = 1
             arr.push(product)
           }
-          console.log(product)
           return arr
         }, [])
-        console.log(temp)
         setProducts(temp)
         let result = 0
         for (const prodKey of res.data) {
@@ -56,7 +80,7 @@ const ShoppingCartPage = () => {
     getData()
   }, [])
   const renderHead = () => {
-    if (products.length === 0) {
+    if (products.length === 0 || Object.keys(products[0]).length === 0) {
       return (
         <>
           <p className='text-3xl lg:text-5xl font-black uppercase text-center mb-5'>Carrito Vació</p>
@@ -73,7 +97,7 @@ const ShoppingCartPage = () => {
         <p className='text-xl lg:text-3xl font-medium text-center uppercase mb-6'>Total: Q {totalShopping}</p>
         <div className='flex flex-wrap gap-3 justify-center'>
           <Button label='Confirmar Carrito' />
-          <Button label='Cancelar Carrito' severity='danger' />
+          <Button label='Cancelar Carrito' severity='danger' onClick={removeAllProduct} />
         </div>
       </>
     )
@@ -96,7 +120,7 @@ const ShoppingCartPage = () => {
             </div>
             <div className='flex flex-col ga-3 justify-center items-center md:items-end w-full'>
               <p className='text-xl font-medium mb-5'>{item.cantidad} x {item.precio_unitario} = Q. {item.cantidad * item.precio_unitario.toFixed()}</p>
-              <Button label='Eliminar' severity='danger' outlined size='small' />
+              <Button label='Eliminar' severity='danger' outlined size='small' onClick={() => removeProduct(item.id_producto)} />
             </div>
           </div>
           <Divider />
@@ -105,7 +129,7 @@ const ShoppingCartPage = () => {
     })
   }
   const renderDetail = () => {
-    if (products.length === 0) {
+    if (products.length === 0 || Object.keys(products[0]).length === 0) {
       return null
     }
     return (

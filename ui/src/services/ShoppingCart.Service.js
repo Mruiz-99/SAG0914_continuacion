@@ -28,7 +28,16 @@ export default class ShoppingCartService {
 
   async deleteProduct (idProducto) {
     this.changePort(4015)
-    const res = await this.http.delete(`${this.URL}/deleteProductCart`, { data: { idProducto } })
+    const form = new FormData()
+    form.append('idProducto', idProducto)
+
+    const res = await this.http.delete(`${this.URL}/deleteProductCart`, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      data: form
+    })
+
     return res.data
   }
 
