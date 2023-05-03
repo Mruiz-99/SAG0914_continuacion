@@ -10,7 +10,7 @@ const ShoppingCartPage = () => {
   const [products, setProducts] = useState([])
   const [totalShopping, setTotalShopping] = useState(0)
   const { token } = useContext(Context)
-  const shoppingCartService = new ShoppingCartService(tokenlourdesmelini@gmail.com)
+  const shoppingCartService = new ShoppingCartService(token)
 
   const getData = async () => {
     // const res = await shoppingCartService.getProducts()
