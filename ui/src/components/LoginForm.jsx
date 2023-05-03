@@ -3,56 +3,61 @@ import { Controller, useForm } from 'react-hook-form'
 import { Button } from 'primereact/button'
 import { classNames } from 'primereact/utils'
 import { Password } from 'primereact/password'
-import { useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Context } from '../store/Context.jsx'
+import { Toast } from 'primereact/toast'
 
 export const LoginForm = () => {
   const defaultValues = { correo: '', contraseña: '' }
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const ctx = useContext(Context)
+  const toast = useRef(null)
 
   const {
     control,
     formState: { errors },
-    handleSubmit,
-    reset
+    handleSubmit
   } = useForm({ defaultValues })
 
   const onSubmit = async (data) => {
     setLoading(true)
     console.log(data)
-    const rest = await ingresar(data);
-    setTimeout(() => {
-      reset()
-      setLoading(false)
-    }, 2000)
-
-    navigate('/signup')
+    const rest = await ingresar(data)
+    if (rest.estatus === 200) {
+      toast.current.show({ severity: 'info', summary: 'Sesión Iniciada', detail: 'Bienvenido' })
+      ctx.login(rest.token, rest.data)
+      navigate('/')
+    } else {
+      toast.current.show({
+        severity: 'error',
+        summary: rest.error ? rest.error : 'Error al ingresar',
+        detail: rest.mensaje ? rest.mensaje : ''
+      })
+      console.log('error', rest)
+    }
+    setLoading(false)
   }
 
   const ingresar = async (data) => {
-    console.log('info ');
-    console.log(data);
-    const response = await fetch(
-      'http://146.190.198.15:5050' + "/user/login", {
-      mode: 'cors',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://146.190.198.15:5050' + "/user/login",
-      },
-      'body': JSON.stringify(
-        {
-          contrasena: data['contraseña'],
-          correo: data['correo']
-        }
-      )
-    }
-    ).then((response) => response.json());
-    console.log(response);
-    return response;
-
-  };
+    return await fetch(
+      'http://146.190.198.15:5050' + '/user/login', {
+        mode: 'cors',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://146.190.198.15:5050' + '/user/login'
+        },
+        body: JSON.stringify(
+          {
+            contrasena: data['contraseña'],
+            correo: data.correo
+          }
+        )
+      }
+    ).then((response) => response.json())
+  }
 
   const getFormErrorMessage = (name) => {
     return errors[name]
@@ -63,6 +68,7 @@ export const LoginForm = () => {
   return (
     <>
       <div className='card w-11/12 md:w-2/5'>
+        <Toast ref={toast} />
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-3 p-fluid'>
           <p className='text-3xl font-bold text-center'>Inicio de Sesión</p>
           <Controller

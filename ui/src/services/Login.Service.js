@@ -25,4 +25,5 @@ export default class LoginService {
   isAuth () {
     return true
   }
+
 }

@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ShoppingCartService from '../../services/ShoppingCart.Service.js'
 import { Divider } from 'primereact/divider'
 import animationData from '../../assets/Empty-cart.json'
 import Lottie from 'lottie-react'
 import { Button } from 'primereact/button'
-
-const shoppingCartService = new ShoppingCartService()
+import { Context } from '../../store/Context.jsx'
 
 const ShoppingCartPage = () => {
   const [products, setProducts] = useState([])
   const [totalShopping, setTotalShopping] = useState(0)
+  const { token } = useContext(Context)
+  const shoppingCartService = new ShoppingCartService(tokenlourdesmelini@gmail.com)
 
   const getData = async () => {
     // const res = await shoppingCartService.getProducts()
@@ -40,18 +41,18 @@ const ShoppingCartPage = () => {
     if (products.length === 0) {
       return (
         <>
-          <p className="text-3xl lg:text-5xl font-black uppercase text-center mb-5">Carrito Vació</p>
-          <Lottie animationData={animationData} style={{ height: 500 }}/>
+          <p className='text-3xl lg:text-5xl font-black uppercase text-center mb-5'>Carrito Vació</p>
+          <Lottie animationData={animationData} style={{ height: 500 }} />
         </>
       )
     }
     return (
       <>
-        <p className="text-3xl lg:text-5xl font-black uppercase text-center mb-5">Tu Carrito</p>
-        <p className="text-xl lg:text-3xl font-medium text-center uppercase mb-6">Total: Q {totalShopping}</p>
-        <div className="flex flex-wrap gap-3 justify-center">
-          <Button label="Confirmar Carrito"/>
-          <Button label="Cancelar Carrito" severity="danger"/>
+        <p className='text-3xl lg:text-5xl font-black uppercase text-center mb-5'>Tu Carrito</p>
+        <p className='text-xl lg:text-3xl font-medium text-center uppercase mb-6'>Total: Q {totalShopping}</p>
+        <div className='flex flex-wrap gap-3 justify-center'>
+          <Button label='Confirmar Carrito' />
+          <Button label='Cancelar Carrito' severity='danger' />
         </div>
       </>
     )
@@ -90,20 +91,20 @@ const ShoppingCartPage = () => {
       <>
         {renderBody()}
         <div className='grid md:grid-cols-6'>
-          <div className="md:col-end-7 md:col-span-5">
-            <div className="flex flex-wrap justify-between my-8">
-              <p className="font-normal text-xl">SubTotal</p>
-              <p className="font-normal text-xl">Q. {totalShopping.toFixed(2)}</p>
+          <div className='md:col-end-7 md:col-span-5'>
+            <div className='flex flex-wrap justify-between my-8'>
+              <p className='font-normal text-xl'>SubTotal</p>
+              <p className='font-normal text-xl'>Q. {totalShopping.toFixed(2)}</p>
             </div>
 
-            <div className="flex flex-wrap justify-between mb-8">
-              <p className="font-normal text-xl">Envio</p>
-              <p className="font-normal text-xl">Gratis</p>
+            <div className='flex flex-wrap justify-between mb-8'>
+              <p className='font-normal text-xl'>Envio</p>
+              <p className='font-normal text-xl'>Gratis</p>
             </div>
-            <Divider/>
-            <div className="flex flex-wrap justify-between mb-8">
-              <p className="font-bold text-xl md:text-3xl">Total</p>
-              <p className="font-bold text-xl md:text-3xl">Q. {totalShopping.toFixed(2)}</p>
+            <Divider />
+            <div className='flex flex-wrap justify-between mb-8'>
+              <p className='font-bold text-xl md:text-3xl'>Total</p>
+              <p className='font-bold text-xl md:text-3xl'>Q. {totalShopping.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -112,7 +113,7 @@ const ShoppingCartPage = () => {
   }
   return (
     <>
-      <div className="card">
+      <div className='card'>
         {renderHead()}
         {renderDetail()}
       </div>

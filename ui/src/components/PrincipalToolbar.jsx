@@ -1,14 +1,18 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { Menubar } from 'primereact/menubar'
 import { Menu } from 'primereact/menu'
 import { Badge } from 'primereact/badge'
 import { Link, useNavigate } from 'react-router-dom'
+import { Context } from '../store/Context.jsx'
+import { Toast } from 'primereact/toast'
 
 const start = <Link to='/'><p className='text-3xl font-bold'>SA-G9</p></Link>
 export const PrincipalToolbar = () => {
   const menu = useRef()
   const [countProducts] = useState(0)
   const navigate = useNavigate()
+  const { isAuth, logout } = useContext(Context)
+  const toast = useRef(null)
 
   const items = [
     {
@@ -16,27 +20,30 @@ export const PrincipalToolbar = () => {
         {
           label: 'Registrarme',
           icon: 'pi pi-user-plus',
-          visible: true,
+          visible: !isAuth,
           command: () => { navigate('/signup') }
         },
         {
           label: 'Iniciar Sesión',
           icon: 'pi pi-sign-in',
-          visible: true,
+          visible: !isAuth,
           command: () => { navigate('/login', { replace: true }) }
         },
         {
           label: 'Editar Perfil',
           icon: 'pi pi-user-edit',
-          visible: true,
+          visible: isAuth,
           command: () => {
           }
         },
         {
           label: 'Cerrar Sesión',
           icon: 'pi pi-sign-out',
-          visible: true,
+          visible: isAuth,
           command: () => {
+            logout()
+            toast.current.show({ severity: 'info', summary: 'Sesión cerrada', detail: '' })
+            navigate('/')
           }
         }
       ]
@@ -71,6 +78,9 @@ export const PrincipalToolbar = () => {
     </div>
   )
   return (
-    <Menubar start={start} end={end} className='py-8 px-8 md:px-20' />
+    <>
+      <Toast ref={toast} />
+      <Menubar start={start} end={end} className='py-8 px-8 md:px-20' />
+    </>
   )
 }

@@ -1,9 +1,9 @@
 import HTTP from '../helpers/AxiosConfig.js'
 
 export default class ShoppingCartService {
-  constructor () {
+  constructor (token) {
     this.URL = '/buy'
-    this.http = HTTP(4013)
+    this.http = HTTP(4013, token)
   }
 
   async addProduct (idProducto, cantidad) {
