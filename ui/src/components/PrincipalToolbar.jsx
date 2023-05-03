@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react'
+import { useContext, useRef } from 'react'
 import { Menubar } from 'primereact/menubar'
 import { Menu } from 'primereact/menu'
 import { Badge } from 'primereact/badge'
@@ -9,10 +9,10 @@ import { Toast } from 'primereact/toast'
 const start = <Link to='/'><p className='text-3xl font-bold'>SA-G9</p></Link>
 export const PrincipalToolbar = () => {
   const menu = useRef()
-  const [countProducts] = useState(0)
   const navigate = useNavigate()
   const { isAuth, logout } = useContext(Context)
   const toast = useRef(null)
+  const { countProducts } = useContext(Context)
 
   const items = [
     {

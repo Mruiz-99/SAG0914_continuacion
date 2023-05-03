@@ -22,22 +22,31 @@ export const LoginForm = () => {
   } = useForm({ defaultValues })
 
   const onSubmit = async (data) => {
-    setLoading(true)
-    console.log(data)
-    const rest = await ingresar(data)
-    if (rest.estatus === 200) {
-      toast.current.show({ severity: 'info', summary: 'Sesión Iniciada', detail: 'Bienvenido' })
-      ctx.login(rest.token, rest.data)
-      navigate('/')
-    } else {
+    try {
+      setLoading(true)
+      console.log(data)
+      const rest = await ingresar(data)
+      if (rest.estatus === 200) {
+        toast.current.show({ severity: 'info', summary: 'Sesión Iniciada', detail: 'Bienvenido' })
+        ctx.login(rest.token, rest.data)
+        navigate('/')
+      } else {
+        toast.current.show({
+          severity: 'error',
+          summary: rest.error ? rest.error : 'Error al ingresar',
+          detail: rest.mensaje ? rest.mensaje : ''
+        })
+        console.log('error', rest)
+      }
+    } catch (e) {
       toast.current.show({
         severity: 'error',
-        summary: rest.error ? rest.error : 'Error al ingresar',
-        detail: rest.mensaje ? rest.mensaje : ''
+        summary: 'Error al enviar solicitud',
+        detail: 'Error al comunicarse con el servidor, contacte a soporte'
       })
-      console.log('error', rest)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const ingresar = async (data) => {

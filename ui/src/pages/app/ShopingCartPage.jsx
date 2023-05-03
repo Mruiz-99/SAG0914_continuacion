@@ -1,38 +1,56 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import ShoppingCartService from '../../services/ShoppingCart.Service.js'
 import { Divider } from 'primereact/divider'
 import animationData from '../../assets/Empty-cart.json'
 import Lottie from 'lottie-react'
 import { Button } from 'primereact/button'
 import { Context } from '../../store/Context.jsx'
+import { Messages } from 'primereact/messages'
+import { Skeleton } from 'primereact/skeleton'
 
 const ShoppingCartPage = () => {
   const [products, setProducts] = useState([])
   const [totalShopping, setTotalShopping] = useState(0)
-  const { token } = useContext(Context)
+  const [loading, setLoading] = useState(true)
+  const message = useRef(null)
+  const { token, isAuth, getCountProducts } = useContext(Context)
   const shoppingCartService = new ShoppingCartService(token)
 
-  const getData = async () => {
-    // const res = await shoppingCartService.getProducts()
-    // setProducts(res.data)
-
-    setProducts([
-      {
-        categoria: 'Alimentos',
-        descripcion: 'Donas con azucar glass',
-        imagen: null,
-        nombre: 'Donas bimbo',
-        precio_unitario: 10,
-        unidades_disponibles: 40
-      }
-    ])
-    // calc total
-    let result = 0
-    for (const prodKey of products) {
-      console.log(prodKey)
-      result += prodKey.precio_unitario
+  const getData = () => {
+    if (!isAuth) {
+      message.current.show(
+        { sticky: true, severity: 'info', summary: '', detail: 'No has iniciado sesión', closable: false }
+      )
+      return
     }
-    setTotalShopping(result)
+    setLoading(true)
+    shoppingCartService.getProducts().then(
+      res => {
+        const temp = res.data.reduce((arr, product) => {
+          const index = arr.findIndex(i => i.id_producto === product.id_producto)
+          if (index >= 0) {
+            arr[index].cantidad += 1
+          } else {
+            product.cantidad = 1
+            arr.push(product)
+          }
+          console.log(product)
+          return arr
+        }, [])
+        console.log(temp)
+        setProducts(temp)
+        let result = 0
+        for (const prodKey of res.data) {
+          result += prodKey.precio_unitario
+        }
+        setTotalShopping(result)
+      }
+    ).catch(e => {
+      console.error(e)
+    }).finally(() => {
+      setLoading(false)
+    }
+    )
   }
   useEffect(() => {
     getData()
@@ -43,6 +61,9 @@ const ShoppingCartPage = () => {
         <>
           <p className='text-3xl lg:text-5xl font-black uppercase text-center mb-5'>Carrito Vació</p>
           <Lottie animationData={animationData} style={{ height: 500 }} />
+          {isAuth
+            ? <></>
+            : <Messages ref={message} />}
         </>
       )
     }
@@ -70,11 +91,11 @@ const ShoppingCartPage = () => {
               height={200}
             />
             <div className='flex flex-col justify-center items-center md:items-start w-full'>
-              <p className='text-xl font-bold'>{item.nombre}</p>
+              <p className='text-xl font-bold'>{item.cantidad} x {item.nombre}</p>
               <p className='font-normal mt-5'>{item.descripcion}</p>
             </div>
             <div className='flex flex-col ga-3 justify-center items-center md:items-end w-full'>
-              <p className='text-xl font-medium mb-5'>Q. {item.precio_unitario.toFixed()}</p>
+              <p className='text-xl font-medium mb-5'>{item.cantidad} x {item.precio_unitario} = Q. {item.cantidad * item.precio_unitario.toFixed()}</p>
               <Button label='Eliminar' severity='danger' outlined size='small' />
             </div>
           </div>
@@ -114,8 +135,16 @@ const ShoppingCartPage = () => {
   return (
     <>
       <div className='card'>
-        {renderHead()}
-        {renderDetail()}
+        {loading
+          ? <>
+            <Skeleton width='100%' height='150px' />
+            <Divider />
+            <Skeleton width='100%' height='350px' />
+            </>
+          : <>
+            {renderHead()}
+            {renderDetail()}
+          </>}
       </div>
     </>
   )

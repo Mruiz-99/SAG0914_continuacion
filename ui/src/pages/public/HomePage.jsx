@@ -1,111 +1,62 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Button } from 'primereact/button'
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview'
 import { Tag } from 'primereact/tag'
 import './home.css'
 import { Image } from 'primereact/image'
 import ProductService from '../../services/Product.Service.js'
+import { Context } from '../../store/Context.jsx'
+import ShoppingCartService from '../../services/ShoppingCart.Service.js'
+import { Toast } from 'primereact/toast'
+import { Messages } from 'primereact/messages'
+import Lottie from 'lottie-react'
+import animationData from '../../assets/ErrorServer.json'
 
 const productService = new ProductService()
 
 export const HomePage = () => {
   const [products, setProducts] = useState([])
   const [layout, setLayout] = useState('grid')
-
-  const getData = async () => {
-    const res = await productService.getAllProduct()
-    setProducts(res.data)
+  const [loading, setLoading] = useState(false)
+  const [visibleServerError, setVisibleServerError] = useState(false)
+  const message = useRef(null)
+  const { token, isAuth, getCountProducts } = useContext(Context)
+  const toast = useRef(null)
+  const shoppingCartService = new ShoppingCartService(token)
+  const getData = () => {
+    setLoading(true)
+    productService.getAllProduct()
+      .then(res => {
+        setProducts(res.data)
+        setVisibleServerError(false)
+        if (isAuth) {
+          getCountProducts()
+        }
+      })
+      .catch(e => {
+        if (e.code === 'ERR_NETWORK') {
+          setVisibleServerError(true)
+          message.current.show(
+            { sticky: true, severity: 'error', summary: '', detail: 'Error al comunicarse con el servidor, en breve estaremos en funcionamiento', closable: true }
+          )
+        }
+      })
+      .finally(() => setLoading(false))
   }
 
+  const addProduct = (idProducto) => {
+    if (!isAuth) {
+      toast.current.show({ severity: 'info', summary: 'No tienes una sesión activa', detail: 'Primer inicia sesión o registrate' })
+      return
+    }
+    shoppingCartService.addProduct(idProducto, 1).then(r => {
+      getCountProducts()
+      toast.current.show({ severity: 'success', summary: 'Producto Agregado' })
+      console.log(r)
+    })
+  }
 
   useEffect(() => {
-    setProducts([
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 24
-      },
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 24
-      },
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 24
-      },
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 24
-      },
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 24
-      },
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 0
-      },
-
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 0
-      },
-
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 0
-      },
-
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 0
-      },
-
-      {
-        id: '1000',
-        nombre: 'Bamboo Watch',
-        imagen: 'bamboo-watch.jpg',
-        precio: 65,
-        categoria: 'Accessories',
-        stock: 24
-      }
-
-    ])
     getData()
   }, [])
 
@@ -145,6 +96,7 @@ export const HomePage = () => {
             <Button
               icon='pi pi-shopping-cart' className='p-button-rounded'
               disabled={product.stock === 0}
+              onClick={() => addProduct(product.sku)}
             />
           </div>
         </div>
@@ -181,6 +133,7 @@ export const HomePage = () => {
           <Button
             icon='pi pi-shopping-cart' className='p-button-rounded'
             disabled={product.stock === 0}
+            onClick={() => addProduct(product.sku)}
           />
         </div>
 
@@ -204,6 +157,22 @@ export const HomePage = () => {
   }
 
   return (
-    <DataView value={products} itemTemplate={itemTemplate} layout={layout} header={header()} paginator rows={15} />
+    <>
+      <Toast ref={toast} />
+      {visibleServerError
+        ? <>
+          <Messages ref={message} />
+          <div className='flex flex-col items-center'>
+            <Lottie animationData={animationData} style={{ height: 500 }} />
+            <Button label='Intentar de nuevo' severity='info' rounded size='large' loading={loading}
+                    onClick={ ()=> getData() }
+
+            />
+          </div>
+          </>
+        : <>
+          <DataView value={products} itemTemplate={itemTemplate} layout={layout} header={header()} paginator rows={15} loading={loading} />
+        </>}
+    </>
   )
 }

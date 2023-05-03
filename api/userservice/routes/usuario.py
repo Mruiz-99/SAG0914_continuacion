@@ -201,7 +201,9 @@ def login():
 
         exp_t = dt.utcnow()+timedelta(hours=24)
         encoded = jwt.encode(
-             {"cui": rows[0], "id_grupo": rows[6], "seccion": rows[7],"exp": exp_t}, "secret", algorithm="HS256")
+             {"idUsuario": str(rows[0]),
+              "tipoUsuario": rows[4],
+              "cui": rows[0], "id_grupo": rows[6], "seccion": rows[7],"exp": exp_t}, "secret", algorithm="HS256")
         
         return make_response(
                 jsonify(
