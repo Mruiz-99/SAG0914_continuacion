@@ -59,18 +59,15 @@ export const PrincipalToolbar = () => {
       <i
         className='pi pi-shopping-cart p-overlay-badge'
         style={{ fontSize: '1.8rem', color: 'var(--primary-color)', cursor: 'pointer' }}
+        onClick={() => navigate('/shoppingCart')}
       >
         <Badge value={countProducts} />
-        
       </i>
       <i
         className='pi pi-wallet p-overlay-badge'
         style={{ fontSize: '1.8rem', color: 'var(--primary-color)', cursor: 'pointer' }}
         onClick={RedirigWallet}
-      >
-        
-      </i>
-
+      />
     </div>
   )
   return (

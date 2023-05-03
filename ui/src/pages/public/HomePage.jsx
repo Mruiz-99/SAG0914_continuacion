@@ -4,13 +4,21 @@ import { DataView, DataViewLayoutOptions } from 'primereact/dataview'
 import { Tag } from 'primereact/tag'
 import './home.css'
 import { Image } from 'primereact/image'
+import ProductService from '../../services/Product.Service.js'
+
+const productService = new ProductService()
 
 export const HomePage = () => {
   const [products, setProducts] = useState([])
   const [layout, setLayout] = useState('grid')
 
+  const getData = async () => {
+    const res = await productService.getAllProduct()
+    setProducts(res.data)
+  }
+
+
   useEffect(() => {
-    // ProductService.getProducts().then((data) => setProducts(data.slice(0, 12)))
     setProducts([
       {
         id: '1000',
@@ -98,10 +106,11 @@ export const HomePage = () => {
       }
 
     ])
+    getData()
   }, [])
 
   const getSeverity = (product) => {
-    if (product.stock > 0) return { value: 'IN STOCK', color: 'success' }
+    if (product.unidades_disponibles > 0) return { value: 'IN STOCK', color: 'success' }
     return { value: 'OUT OF STOCK', color: 'danger' }
   }
 
@@ -111,7 +120,9 @@ export const HomePage = () => {
 
         <Image
           className='h-1/5 drop-shadow-lg rounded-lg'
-          src={`https://primefaces.org/cdn/primereact/images/product/${product.imagen}`} alt={product.nombre}
+          src={product.imagen ? `${product.imagen}` : 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/2048px-Imagen_no_disponible.svg.png'} alt={product.nombre}
+          width={100}
+          height={100}
           preview
         />
 
@@ -130,7 +141,7 @@ export const HomePage = () => {
           </div>
 
           <div className='flex sm:flex-col items-center sm:items-end gap-3 sm:gap-2'>
-            <span className='text-2xl font-semibold'>${product.precio}</span>
+            <span className='text-2xl font-semibold'>Q{product.precio_unitario}</span>
             <Button
               icon='pi pi-shopping-cart' className='p-button-rounded'
               disabled={product.stock === 0}
@@ -144,7 +155,7 @@ export const HomePage = () => {
 
   const gridItem = (product) => {
     return (
-      <div className='mt-6 p-6 bg-white border rounded-3xl w-full  md:w-max'>
+      <div className='mt-6 p-6 bg-white border rounded-3xl w-full  md:w-max '>
 
         <div className='flex flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center gap-2'>
@@ -157,14 +168,16 @@ export const HomePage = () => {
         <div className='flex flex-col items-center gap-3 py-5'>
           <Image
             className='w-3/4 drop-shadow-lg rounded-lg'
-            src={`https://primefaces.org/cdn/primereact/images/product/${product.imagen}`} alt={product.nombre}
+            src={product.imagen ? `${product.imagen}` : 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/2048px-Imagen_no_disponible.svg.png'} alt={product.nombre}
             preview
+            width='200'
+            height='200'
           />
           <div className='text-2xl font-bold'>{product.nombre}</div>
         </div>
 
         <div className='flex items-center justify-between'>
-          <span className='text-2xl font-semibold'>${product.precio}</span>
+          <span className='text-2xl font-semibold'>Q{product.precio_unitario}</span>
           <Button
             icon='pi pi-shopping-cart' className='p-button-rounded'
             disabled={product.stock === 0}

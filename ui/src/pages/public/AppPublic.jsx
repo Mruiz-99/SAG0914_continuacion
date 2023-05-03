@@ -5,10 +5,12 @@ import { HomePage } from './HomePage.jsx'
 import { PrincipalToolbar } from '../../components/PrincipalToolbar.jsx'
 
 const Login = React.lazy(() => import('./LoginPage'))
+// const ProductDetail = React.lazy(() => import('./ProductDetail'))
 const SignUp = React.lazy(() => import('./SignUpPage'))
 const Wallet = React.lazy(() => import('./WalletPage'))
-const EmailC = React.lazy(() => import('./ConfirmEmailPage.jsx'))
-const AdminSignUp = React.lazy(() => import('./AdminSignUpPage.jsx'))
+const EmailC = React.lazy(() => import('./ConfirmEmailPage'))
+const AdminSignUp = React.lazy(() => import('./AdminSignUpPage'))
+const ShoppingCart = React.lazy(() => import('../app/ShopingCartPage'))
 const ConfirmAccount = React.lazy(() => import('./ConfirmAccountPage.jsx'))
 
 const AppPublic = () => {
@@ -16,6 +18,7 @@ const AppPublic = () => {
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route index element={<HomePage />} />
+
         <Route
           path='login' element={
             <React.Suspense fallback={<>...</>}>
@@ -52,6 +55,14 @@ const AppPublic = () => {
               <AdminSignUp />
             </React.Suspense>
           }
+        />
+
+        <Route
+          path='shoppingCart' element={
+            <React.Suspense fallback={<>...</>}>
+              <ShoppingCart />
+            </React.Suspense>
+        }
         />
 
 
