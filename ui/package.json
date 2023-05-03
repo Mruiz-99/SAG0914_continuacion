@@ -21,7 +21,8 @@
     "react-hook-form": "7.43.7",
     "react-lottie": "1.2.3",
     "react-router-dom": "6.9.0",
-    "sort-by": "1.2.0"
+    "sort-by": "1.2.0",
+    "vite-plugin-rewrite-all": "^1.0.1"
   },
   "devDependencies": {
     "@types/react": "18.0.28",

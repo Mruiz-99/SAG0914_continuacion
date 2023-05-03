@@ -18,25 +18,28 @@ export const LoginForm = () => {
     reset
   } = useForm({ defaultValues })
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setLoading(true)
     console.log(data)
+    const rest = await ingresar(data);
     setTimeout(() => {
       reset()
       setLoading(false)
     }, 2000)
+
+    navigate('/signup')
   }
 
   const ingresar = async (data) => {
     console.log('info ');
     console.log(data);
     const response = await fetch(
-      'http://146.190.198.15:5050' + "/user/signin", {
+      'http://146.190.198.15:5050' + "/user/login", {
       mode: 'cors',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://146.190.198.15:5050' + "/user/signin",
+        'Access-Control-Allow-Origin': 'http://146.190.198.15:5050' + "/user/login",
       },
       'body': JSON.stringify(
         {

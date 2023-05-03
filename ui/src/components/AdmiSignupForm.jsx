@@ -16,8 +16,7 @@ export const AdminSignupForm = () => {
     const [loading, setLoading] = useState(false)
     const tiposU = [
         { name: 'Empresario', code: 'E' },
-        { name: 'Administrador', code: 'A' },
-        { name: 'Usuario', code: 'U' }
+        { name: 'Usuario Cliente', code: 'C' }
     ];
     const secc = [
         { name: 'N', code: 'N' },

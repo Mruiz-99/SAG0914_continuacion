@@ -9,6 +9,8 @@ const SignUp = React.lazy(() => import('./SignUpPage'))
 const Wallet = React.lazy(() => import('./WalletPage'))
 const EmailC = React.lazy(() => import('./ConfirmEmailPage.jsx'))
 const AdminSignUp = React.lazy(() => import('./AdminSignUpPage.jsx'))
+const ConfirmAccount = React.lazy(() => import('./ConfirmAccountPage.jsx'))
+
 const AppPublic = () => {
   return (
     <Routes>
@@ -48,6 +50,15 @@ const AppPublic = () => {
           path='AdminSignUp' element={
             <React.Suspense fallback={<>...</>}>
               <AdminSignUp />
+            </React.Suspense>
+          }
+        />
+
+
+        <Route
+          path='cuenta/confirmar/:id' element={
+            <React.Suspense fallback={<>...</>}>
+              <ConfirmAccount />
             </React.Suspense>
           }
         />
