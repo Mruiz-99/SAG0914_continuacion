@@ -30,13 +30,20 @@ export const ContextProvider = ({ children }) => {
     setToken(null)
     setIsAuth(false)
     setIsAdmin(false)
+    setCountProducts(0)
     // eslint-disable-next-line no-undef
     localStorage.clear()
   }
 
   const getCountProducts = () => {
     shoppingCartService.getProducts()
-      .then(res => setCountProducts(res.data.length))
+      .then(res => {
+        if (res.data.length === 0 || Object.keys(res.data[0]).length === 0) {
+          setCountProducts(0)
+        } else {
+          setCountProducts(res.data.length)
+        }
+      })
       .catch(e => {
         console.error(e)
         setCountProducts(0)

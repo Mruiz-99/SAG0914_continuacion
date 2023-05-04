@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.min.css'
@@ -13,10 +13,10 @@ import { ContextProvider } from './store/Context.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ContextProvider>
-      <BrowserRouter>
+      <HashRouter>
 
         <AppPublic />
-      </BrowserRouter>
+      </HashRouter>
     </ContextProvider>
   </React.StrictMode>
 )
