@@ -40,9 +40,7 @@ const ShoppingCartPage = () => {
 
   const getData = () => {
     if (!isAuth) {
-      message.current.show(
-        { sticky: true, severity: 'info', summary: '', detail: 'No has iniciado sesión', closable: false }
-      )
+      setLoading(false)
       return
     }
     setLoading(true)
@@ -87,7 +85,7 @@ const ShoppingCartPage = () => {
           <Lottie animationData={animationData} style={{ height: 500 }} />
           {isAuth
             ? <></>
-            : <Messages ref={message} />}
+            : <p className='text-xl text-center font-medium uppercase'> Inicia Sesison</p>}
         </>
       )
     }

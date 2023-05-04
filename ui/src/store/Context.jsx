@@ -30,6 +30,7 @@ export const ContextProvider = ({ children }) => {
     setToken(null)
     setIsAuth(false)
     setIsAdmin(false)
+    setCountProducts(0)
     // eslint-disable-next-line no-undef
     localStorage.clear()
   }
