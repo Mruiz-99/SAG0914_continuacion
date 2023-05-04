@@ -9,7 +9,7 @@ const Login = React.lazy(() => import('./LoginPage'))
 const SignUp = React.lazy(() => import('./SignUpPage'))
 const Wallet = React.lazy(() => import('./WalletPage'))
 const EmailC = React.lazy(() => import('./ConfirmEmailPage'))
-const AdminSignUp = React.lazy(() => import('./AdminSignUpPage'))
+const AddUsu = React.lazy(() => import('./AddUsuPage'))
 const ShoppingCart = React.lazy(() => import('../app/ShopingCartPage'))
 const ConfirmAccount = React.lazy(() => import('./ConfirmAccountPage.jsx'))
 
@@ -50,9 +50,9 @@ const AppPublic = () => {
         />
 
         <Route
-          path='AdminSignUp' element={
+          path='AddUsu' element={
             <React.Suspense fallback={<>...</>}>
-              <AdminSignUp />
+              <AddUsu />
             </React.Suspense>
           }
         />
@@ -62,7 +62,7 @@ const AppPublic = () => {
             <React.Suspense fallback={<>...</>}>
               <ShoppingCart />
             </React.Suspense>
-        }
+          }
         />
 
 

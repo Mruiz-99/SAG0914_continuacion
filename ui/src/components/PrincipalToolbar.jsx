@@ -10,7 +10,7 @@ const start = <Link to='/'><p className='text-3xl font-bold'>SA-G9</p></Link>
 export const PrincipalToolbar = () => {
   const menu = useRef()
   const navigate = useNavigate()
-  const { isAuth, logout } = useContext(Context)
+  const { isAuth, isAdmin, logout } = useContext(Context)
   const toast = useRef(null)
   const { countProducts } = useContext(Context)
 
@@ -35,6 +35,12 @@ export const PrincipalToolbar = () => {
           visible: isAuth,
           command: () => {
           }
+        },
+        {
+          label: 'Agregar usuario',
+          icon: 'pi pi-user-edit',
+          visible: isAdmin,
+          command: () => { navigate('/AddUsu') }
         },
         {
           label: 'Cerrar Sesión',

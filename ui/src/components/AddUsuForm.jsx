@@ -3,14 +3,17 @@ import { Controller, useForm } from 'react-hook-form'
 import { Button } from 'primereact/button'
 import { classNames } from 'primereact/utils'
 import { Password } from 'primereact/password'
-import { useState } from 'react'
+import { useState, useContext, } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Calendar } from 'primereact/calendar';
 import dayjs from "dayjs";
 import { Dropdown } from 'primereact/dropdown';
+import { Context } from '../store/Context.jsx'
+import DeleteUsuForm from './DeleteUsu.jsx';
 
-export const AdminSignupForm = () => {
-    const defaultValues = { cui: '', nombres: '', apellidos: '', correo: '', contraseña: '', contraseña2: '', fecha_nac: '', numero_grupo: '', seccion: '', tipo: '' }
+export const AddUsuForm = () => {
+    const defaultValues = { cui: '', nombres: '', apellidos: '', correo: '', contraseña: '', contraseña2: '', areaAsignada: '', fecha_nac: '', sueldo: '' }
+    const { token, isAuth, getCountProducts } = useContext(Context)
     //cui, nombres, apellidos, contraseña, correo, fecha de nacimiento, tipo, numero grupo, sección
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -37,60 +40,80 @@ export const AdminSignupForm = () => {
         data['fecha_nac'] = for_date
 
         console.log(data)
-        //const rest = await nuevoUsuario(data);
+        const rest = await nuevoUsuario(data);
         setTimeout(() => {
             reset()
             setLoading(false)
         }, 2000)
-        navigate('/confirmEmail')
+        navigate('/AddUsu')
     }
 
 
     const nuevoUsuario = async (data) => {
+
+
+
         console.log('info ');
         console.log(data);
-        const response = await fetch(
-            'http://146.190.198.15:5050' + "/user/signin", {
-            mode: 'cors',
-            method: 'POST',
+        const myFile = document.querySelector("input[type=file]");
+        const dataform = new FormData();
+        dataform.append("cui", data['cui']);
+        dataform.append("nombres", data['nombres']);
+        dataform.append("apellidos", data['apellidos']);
+        dataform.append("password", data['contraseña']);
+        dataform.append("confirmarPassword", data['contraseña2']);
+        dataform.append("correo", data['correo']);
+        dataform.append("fechaNacimiento", data['fecha_nac']);
+        dataform.append("areaAsignada", data['areaAsignada']);
+        dataform.append("sueldo", data['sueldo']);
+        const response = await fetch('http://146.190.198.15:4009' + "/rrhh/agregarUsuario", {
+            method: "POST",
+            body: dataform,
             headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'http://146.190.198.15:5050' + "/user/signin",
-            },
-            'body': JSON.stringify(
-                /* {
-                  id_usuario: userObj.usuario.id_usuario.toString(),
-                  alias: userObj.usuario.alias,
-                  correo: userObj.usuario.correo,
-                  cantidad: cantidad,
-                  id_partido: part.toString(),
-                  id_categoria: cate.toString(),
-                } */
-                {
-                    cui: data['cui'],
-                    nombres: data['nombres'],
-                    apellidos: data['apellidos'],
-                    contrasena: data['contraseña'],
-                    correo: data['correo'],
-                    fecha_nacimiento: data['fecha_nac'],
-                    tipo: "U"
-                }
-                /* {
-                  cui: 2168095170407,
-                  nombres: data['nombres'],
-                  apellidos: data['apellidos'],
-                  contrasena: data['contraseña'],
-                  correo: data['correo'],
-                  fecha_nacimiento: data['fecha_nac'],
-                  tipo: "E",
-                  numero_grupo: 914,
-                  seccion_grupo: "N"
-                } */
-            )
-        }
-        ).then((response) => response.json());
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response) => response.json());
         console.log(response);
         return response;
+
+        /*         const response = await fetch(
+                    'http://146.190.198.15:4009' + "/rrhh/agregarUsuario", {
+                    mode: 'cors',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': 'http://146.190.198.15:4009' + "/rrhh/agregarUsuario",
+                    },
+                    'body': FormData.stringify(
+                        {
+                            cui: data['cui'],
+                            nombres: data['nombres'],
+                            apellidos: data['apellidos'],
+                            password: data['contraseña'],
+                            confirmarPassword: data['contraseña2'],
+                            correo: data['correo'],
+                            fecha_nacimiento: data['fecha_nac'],
+                            areaAsignada: data['areaAsignada'],
+                            sueldo: data['sueldo']
+                        }
+                    )
+        
+        
+                    /*             JSON.stringify(
+                                    {
+                                        cui: data['cui'],
+                                        nombres: data['nombres'],
+                                        apellidos: data['apellidos'],
+                                        contrasena: data['contraseña'],
+                                        correo: data['correo'],
+                                        fecha_nacimiento: data['fecha_nac'],
+                                        tipo: "U"
+                                    }
+                                ) */
+        /*         }
+                ).then((response) => response.json());
+                console.log(response);
+                return response; */
 
     };
 
@@ -101,14 +124,19 @@ export const AdminSignupForm = () => {
     }
 
     const formatDate = (date) => {
-        return dayjs(date).format("YYYY-MM-DD");
+        return dayjs(date).format("YYYY/MM/DD");
     };
 
     return (
         <>
+            <div >
+
+                <DeleteUsuForm></DeleteUsuForm>
+            </div>
             <div className='card w-11/12 md:w-2/5'>
+
                 <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-3 p-fluid'>
-                    <p className='text-3xl font-bold text-center'>Crear Cuenta</p>
+                    <p className='text-3xl font-bold text-center'>Agregar Usuario</p>
 
                     <Controller
                         name='cui'
@@ -273,25 +301,21 @@ export const AdminSignupForm = () => {
                     />
 
                     <Controller
-                        name="tipo"
+                        name='areaAsignada'
                         control={control}
-                        rules={{ required: 'Tipo es requerido.' }}
+                        rules={{
+                            required: 'área asignada es requerido.'
+                        }}
                         render={({ field, fieldState }) => (
                             <>
                                 <label htmlFor={field.name} className={classNames({ 'p-error': errors.value })} />
                                 <span className='p-float-label'>
-
-                                    <Dropdown
-                                        id={field.name}
-                                        value={field.value}
-                                        optionLabel="name"
-                                        placeholder="Select a tipo"
-                                        options={tiposU}
-                                        focusInputRef={field.ref}
-                                        onChange={(e) => field.onChange(e.value)}
+                                    <InputText
+                                        id={field.name} value={field.value}
                                         className={classNames({ 'p-invalid': fieldState.error })}
+                                        onChange={(e) => field.onChange(e.target.value)}
                                     />
-                                    <label htmlFor={field.name}>Tipo *</label>
+                                    <label htmlFor={field.name}>Área asignada *</label>
                                 </span>
                                 {getFormErrorMessage(field.name)}
                             </>
@@ -299,11 +323,9 @@ export const AdminSignupForm = () => {
                     />
 
                     <Controller
-                        name='numero_grupo'
+                        name="sueldo"
                         control={control}
-                        rules={{
-                            required: 'número grupo es requerido.'
-                        }}
+                        rules={{ required: 'sueldo es requerido.' }}
                         render={({ field, fieldState }) => (
                             <>
                                 <label htmlFor={field.name} className={classNames({ 'p-error': errors.value })} />
@@ -315,33 +337,7 @@ export const AdminSignupForm = () => {
                                         className={classNames({ 'p-invalid': fieldState.error })}
                                         onChange={(e) => field.onChange(e.target.value)}
                                     />
-                                    <label htmlFor={field.name}>Número Grupo *</label>
-                                </span>
-                                {getFormErrorMessage(field.name)}
-                            </>
-                        )}
-                    />
-
-                    <Controller
-                        name="seccion"
-                        control={control}
-                        rules={{ required: 'Sección es requerido.' }}
-                        render={({ field, fieldState }) => (
-                            <>
-                                <label htmlFor={field.name} className={classNames({ 'p-error': errors.value })} />
-                                <span className='p-float-label'>
-
-                                    <Dropdown
-                                        id={field.name}
-                                        value={field.value}
-                                        optionLabel="name"
-                                        placeholder="Select a tipo"
-                                        options={secc}
-                                        focusInputRef={field.ref}
-                                        onChange={(e) => field.onChange(e.value)}
-                                        className={classNames({ 'p-invalid': fieldState.error })}
-                                    />
-                                    <label htmlFor={field.name}>Sección *</label>
+                                    <label htmlFor={field.name}>Sueldo *</label>
                                 </span>
                                 {getFormErrorMessage(field.name)}
                             </>
@@ -349,10 +345,10 @@ export const AdminSignupForm = () => {
                     />
 
 
-                    <Button label='Registrarme' loading={loading} rounded />
+                    <Button label='Registrar usuario' loading={loading} rounded />
                     <Button
-                        label='Ya tengo cuenta' className='p-button-outlined' severity='secondary'
-                        onClick={() => navigate('/login')}
+                        label='Cancelar' className='p-button-outlined' severity='secondary'
+                        onClick={() => navigate('/shoppingCart')}
                         rounded
                     />
                 </form>
