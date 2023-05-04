@@ -12,6 +12,7 @@ const EmailC = React.lazy(() => import('./ConfirmEmailPage'))
 const AddUsu = React.lazy(() => import('./AddUsuPage'))
 const ShoppingCart = React.lazy(() => import('../app/ShopingCartPage'))
 const ConfirmAccount = React.lazy(() => import('./ConfirmAccountPage.jsx'))
+const RutasPage = React.lazy(() => import('./RutasPage'))
 
 const AppPublic = () => {
   return (
@@ -65,13 +66,20 @@ const AppPublic = () => {
           }
         />
 
-
         <Route
           path='cuenta/confirmar/:id' element={
             <React.Suspense fallback={<>...</>}>
               <ConfirmAccount />
             </React.Suspense>
           }
+        />
+
+        <Route
+          path='ruta' element={
+            <React.Suspense fallback={<>...</>}>
+              <RutasPage />
+            </React.Suspense>
+        }
         />
 
         <Route path='*' />

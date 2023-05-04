@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Context } from '../store/Context.jsx'
 import { Toast } from 'primereact/toast'
 
-const start = <Link to='/'><p className='text-3xl font-bold'>SA-G9</p></Link>
+const start = <Link to="/"><p className="text-3xl font-bold">SA-G9</p></Link>
 export const PrincipalToolbar = () => {
   const menu = useRef()
   const navigate = useNavigate()
@@ -37,6 +37,12 @@ export const PrincipalToolbar = () => {
           }
         },
         {
+          label: 'Rutas',
+          // icon: 'pi pi-user-edit',
+          visible: isAdmin,
+          command: () => { navigate('/ruta') }
+        },
+        {
           label: 'Agregar usuario',
           icon: 'pi pi-user-edit',
           visible: isAdmin,
@@ -61,23 +67,23 @@ export const PrincipalToolbar = () => {
   }
 
   const end = (
-    <div className='flex gap-3 items-center'>
-      <Menu model={items} popup ref={menu} />
+    <div className="flex gap-3 items-center">
+      <Menu model={items} popup ref={menu}/>
       <i
-        className='pi pi-user' style={{ fontSize: '1.8rem', color: 'var(--primary-color)', cursor: 'pointer' }}
+        className="pi pi-user" style={{ fontSize: '1.8rem', color: 'var(--primary-color)', cursor: 'pointer' }}
         onClick={(e) => menu.current.toggle(e)}
         onMouseEnter={(e) => menu.current.toggle(e)}
       />
 
       <i
-        className='pi pi-shopping-cart p-overlay-badge'
+        className="pi pi-shopping-cart p-overlay-badge"
         style={{ fontSize: '1.8rem', color: 'var(--primary-color)', cursor: 'pointer' }}
         onClick={() => navigate('/shoppingCart')}
       >
-        <Badge value={countProducts} />
+        <Badge value={countProducts}/>
       </i>
       <i
-        className='pi pi-wallet p-overlay-badge'
+        className="pi pi-wallet p-overlay-badge"
         style={{ fontSize: '1.8rem', color: 'var(--primary-color)', cursor: 'pointer' }}
         onClick={RedirigWallet}
       />
@@ -85,8 +91,8 @@ export const PrincipalToolbar = () => {
   )
   return (
     <>
-      <Toast ref={toast} />
-      <Menubar start={start} end={end} className='py-8 px-8 md:px-20' />
+      <Toast ref={toast}/>
+      <Menubar start={start} end={end} className="py-8 px-8 md:px-20"/>
     </>
   )
 }
