@@ -13,8 +13,8 @@ export default class RoutesService {
 
   async crearRutas (name, zones) {
     this.changePort(4037)
-    // const res = await this.http.postForm(`${this.URL}/addShoppingCart`, { nombre: name, zonas: JSON.stringify(zones) })
-    const res = await this.http.postForm(`${this.URL}/crearRuta`, { nombre: name, zonas: zones })
+    const res = await this.http.postForm(`${this.URL}/crearRuta`, { nombre: name, zonas: JSON.stringify(zones) })
+    // const res = await this.http.postForm(`${this.URL}/crearRuta`, { nombre: name, zonas: `[${zones}]` })
     return res.data
   }
 
