@@ -1,0 +1,14 @@
+services:
+    conta-service:
+      build:
+        context: ./api/contaservice
+        dockerfile: Dockerfile
+      image: lex2804/conta-sa-g0914-project
+      container_name: conta-sa-g0914-project
+      env_file:
+        - .env.prod
+      ports:
+        - "5057:5057"
+      restart: always
+      networks:
+        - sa0914-app-net
