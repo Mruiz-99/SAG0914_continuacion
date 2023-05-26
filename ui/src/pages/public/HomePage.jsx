@@ -85,7 +85,7 @@ export const HomePage = () => {
             <div className='flex items-center gap-3'>
               <span className='flex items-center gap-2'>
                 <i className='pi pi-tag' />
-                <span className='font-semibold'>{product.categoria}</span>
+                <span className='font-semibold'>{product.unidades_disponibles}</span>
               </span>
               <Tag value={getSeverity(product).value} severity={getSeverity(product).color} />
             </div>
@@ -112,7 +112,7 @@ export const HomePage = () => {
         <div className='flex flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center gap-2'>
             <i className='pi pi-tag' />
-            <span className='font-semibold'>{product.categoria}</span>
+            <span className='font-semibold'>{product.unidades_disponibles}</span>
           </div>
           <Tag value={getSeverity(product).value} severity={getSeverity(product).color} />
         </div>
